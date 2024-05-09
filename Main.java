@@ -1,19 +1,30 @@
 package application;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
+		
+		 
+		
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			StackPane root = new StackPane();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+			Pane pane = loader.load();
+			root.getChildren().add(pane);
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
