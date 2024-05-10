@@ -5,6 +5,7 @@ package application;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class Controller{
@@ -30,11 +31,11 @@ public class Controller{
 	@FXML
 	private Button button9;
 	@FXML
-	private TextArea mainTextArea;
+	private TextField mainTextField;
 	
 
 	public void addDigit(int digit) {
-		mainTextArea.appendText(Integer.toString(digit));
+		mainTextField.appendText(Integer.toString(digit));
 	}
 	
 	public void handleZero() {
@@ -68,4 +69,37 @@ public class Controller{
 		addDigit(9);
 	}
 	
-}
+	public void addSign(String sign) {
+		mainTextField.appendText(sign);
+	}
+	public void handlePlus() {
+		addSign("+");
+	}
+	public void handleMinus() {
+		addSign("-");
+	}
+	public void handleMultiply() {
+		addSign("*");
+	}
+	public void handleDivide() {
+		addSign("/");
+	}
+	
+	public void clearAll() {
+		mainTextField.clear();
+		
+	}
+	
+	public void clear() {
+            if (!mainTextField.getText().isEmpty()) {
+                int lastIndex = mainTextField.getText().length() - 1;
+                mainTextField.deleteText(lastIndex, lastIndex + 1);
+            }
+        }
+	
+	public void calculate() {
+		
+	}
+	
+	
+	}
