@@ -3,6 +3,7 @@ package application;
 import java.util.Iterator;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -33,7 +34,13 @@ public class Controller {
 	@FXML
 	private TextField mainTextField;
 
+	double firstNumber;
+	double secondNumber;
+	double result;
+	char operation;
+
 	public void addDigit(int digit) {
+
 		mainTextField.appendText(Integer.toString(digit));
 	}
 
@@ -77,24 +84,27 @@ public class Controller {
 		addDigit(9);
 	}
 
-	public void addSign(String sign) {
-		mainTextField.appendText(sign);
+	public void addSign(char sign) {
+		String numberOnDisplay = mainTextField.getText();
+		firstNumber = Double.parseDouble(numberOnDisplay);
+		operation = sign;
+		mainTextField.clear();
 	}
 
 	public void handlePlus() {
-		addSign("+");
+		addSign('+');
 	}
 
 	public void handleMinus() {
-		addSign("-");
+		addSign('-');
 	}
 
 	public void handleMultiply() {
-		addSign("*");
+		addSign('*');
 	}
 
 	public void handleDivide() {
-		addSign("/");
+		addSign('/');
 	}
 
 	public void clearAll() {
@@ -109,64 +119,35 @@ public class Controller {
 		}
 	}
 
-	public void calculate() {
-		double result = 0;
-		double previousNum;
-		double nextNum;
-		double currentResult = 0;
-		int operation = 0;
-		String digits = mainTextField.getText();
-
-		for (int i = 0; i < digits.length(); i++) {
-			// Provera kada prvi put pronadjem neku operaciju
-			if (operation == 0) {
-				if (digits.charAt(i) == '+') {
-					operation++;
-					previousNum = Character.getNumericValue(digits.charAt(i - 1));
-					nextNum = Character.getNumericValue(digits.charAt(i + 1));
-					result = previousNum + nextNum;
-					currentResult = result;
-				} else if (digits.charAt(i) == '-') {
-					operation++;
-					previousNum = Character.getNumericValue(digits.charAt(i - 1));
-					nextNum = Character.getNumericValue(digits.charAt(i + 1));
-					result = previousNum - nextNum;
-					currentResult = result;
-				} else if (digits.charAt(i) == '*') {
-					operation++;
-					previousNum = Character.getNumericValue(digits.charAt(i - 1));
-					nextNum = Character.getNumericValue(digits.charAt(i + 1));
-					result = previousNum * nextNum;
-					currentResult = result;
-				} else if (digits.charAt(i) == '/') {
-					operation++;
-					previousNum = Character.getNumericValue(digits.charAt(i - 1));
-					nextNum = Character.getNumericValue(digits.charAt(i + 1));
-					result = previousNum / nextNum;
-					currentResult = result;
-				}
-
-			} else if (digits.charAt(i) == '+') {
-				operation++;
-				nextNum = Character.getNumericValue(digits.charAt(i + 1));
-				result = currentResult + nextNum;
-			} else if (digits.charAt(i) == '-') {
-				operation++;
-				nextNum = Character.getNumericValue(digits.charAt(i + 1));
-				result = currentResult - nextNum;
-			} else if (digits.charAt(i) == '*') {
-				operation++;
-				nextNum = Character.getNumericValue(digits.charAt(i + 1));
-				result = currentResult * nextNum;
-			} else if (digits.charAt(i) == '/') {
-				operation++;
-				nextNum = Character.getNumericValue(digits.charAt(i + 1));
-				result = currentResult / nextNum;
+	public void changeSign() {
+		try {
+			int number = Integer.parseInt(mainTextField.getText());
+			if (number > 0 || number < 0) {
+				int reversed = Math.negateExact(number);
+				mainTextField.setText(String.valueOf(reversed));
+			} else if (number == 0) {
+				mainTextField.setText(String.valueOf(number));
 			}
 
+		} catch (Exception e) {
+			System.out.println("Catching the exception");
+		}
+	}
+
+	public void calculate() {
+
+		String secondNumberOnDisplay = mainTextField.getText();
+		secondNumber = Double.parseDouble(secondNumberOnDisplay);
+
+		switch (operation) {
+		case '+' -> result = firstNumber + secondNumber;
+		case '-' -> result = firstNumber - secondNumber;
+		case '*' -> result = firstNumber * secondNumber;
+		case '/' -> result = firstNumber / secondNumber;
+		default -> mainTextField.setText("Error");
 		}
 
-		mainTextField.setText(Double.toString(result));
+		mainTextField.setText(String.valueOf(result));
 	}
 
 }
